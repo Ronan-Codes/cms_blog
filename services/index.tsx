@@ -39,6 +39,42 @@ export const getPosts = async () => {
 	return result.postsConnection.edges;
 };
 
+export const getPostDetails = async (slug:string) => {
+	const query = gql`
+		query GetPostDetails($slug: String!) {
+            post(where: { slug: $slug }) {
+                author {
+                    bio
+                    name
+                    id
+                    photo {
+                        url
+                    }
+                }
+                createdAt
+                slug
+                title
+                excerpt
+                featuredImage {
+                    url
+                }
+                categories {
+                    name
+                    slug
+                }
+                content {
+                    raw
+                }
+            }
+		}
+	`;
+
+	const result = await request(graphqlAPI, query, { slug });
+
+	return result.post;
+};
+// content{raw} gives us access to the post's content
+
 export const getRecentPosts = async () => {
     const query = gql `
         query GetPostDetails() {
@@ -61,7 +97,8 @@ export const getRecentPosts = async () => {
 	return result.posts;
 }
 
-export const getSimilarPosts = async () => {
+// When using parameters, make sure to include it in the request() function at the bottom as well
+export const getSimilarPosts = async (categories: String[], slug: string) => {
     const query = gql`
         query GetPostDetails($slug: String!, $categories: [String!]) {
             posts(
@@ -78,7 +115,7 @@ export const getSimilarPosts = async () => {
         }
     `
 
-    const result = await request(graphqlAPI, query);
+    const result = await request(graphqlAPI, query, { categories, slug });
 
 	return result.posts;
 }
@@ -86,3 +123,19 @@ export const getSimilarPosts = async () => {
 // _some: But include other articles that include some of the categories that we want to get 
 // _in: included in slug
 // and we want to specify that we just want the last 3 articles  
+
+
+export const getCategories = async() => {
+    const query = gql`
+        query GetCategories {
+            categories {
+                name
+                slug
+            }
+        }
+    `
+
+    const result = await request(graphqlAPI, query);
+
+	return result.categories;
+}
