@@ -13,7 +13,6 @@ const posts = [
 ];
 
 const Home: NextPage<{posts: Edge[]}> = ({posts}) => {
-  console.log(posts)
   
   return (
     <div className="container mx-auto px-10 mb-8">
@@ -44,7 +43,6 @@ const Home: NextPage<{posts: Edge[]}> = ({posts}) => {
 export async function getStaticProps() {
   const posts:any = (await getPosts()) || [];
 
-  console.log(posts)
   return {
     props: {posts}
   }
