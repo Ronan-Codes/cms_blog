@@ -11,6 +11,7 @@ import { getRecentPosts, getSimilarPosts } from '../services'
 const PostWidget: NextPage<{categories?: Category[], slug?: string}> = ({ categories, slug}) => {
   const [relatedPosts, setRelatedPosts] = useState([]);
 
+  // REVIEW
   useEffect(() => {
     if(slug) {
       getSimilarPosts(categories, slug)
@@ -29,7 +30,7 @@ const PostWidget: NextPage<{categories?: Category[], slug?: string}> = ({ catego
     // }
   }, [slug])
   
-  console.log(relatedPosts)
+  // console.log(relatedPosts)
 
   return (
     <div className='bg-white shadow-lg rounded-lg p-8 mb-8'>
