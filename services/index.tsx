@@ -139,3 +139,35 @@ export const getCategories = async() => {
 
 	return result.categories;
 }
+
+// write a request to our Next.js API
+// The reason we need our own bakcend is b/c graphCMS allows our own backend to interact with our service to actually
+    // submit a comment to graphCMS
+export const submitComment = async (obj:any) => {
+    const result = await fetch('/api/comments', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(obj),
+    })
+
+    return result.json()
+}
+
+export const getComments = async(slug: string) => {
+    const query = gql`
+        query GetComments($slug: String!) {
+            comments(where: { post: { slug: $slug } } ) {
+                name
+                createdAt
+                comment
+            }
+        }
+    `
+    // get all comments where in an object post has this slug
+
+    const result = await request(graphqlAPI, query, {slug});
+
+	return result.comments;
+}
