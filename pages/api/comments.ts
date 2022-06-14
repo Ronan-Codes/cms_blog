@@ -10,26 +10,13 @@ import {GraphQLClient, gql} from 'graphql-request'
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT
 const graphcmsToken = process.env.GRAPHCMS_TOKEN;
 
-type Data = {
-  name: string
-}
-
 export default async function comments(req: NextApiRequest, res: NextApiResponse<Data>) {
-  // console.log({graphcmsToken})
-
-  // const {name, email, slug, comment} = req.body;
-  // can just put req.body in the request
-
-  // setup the graphql client 
   const graphQLClient = new GraphQLClient(graphqlAPI, {
     headers: {
       authorization: `Bearer ${graphcmsToken}`
-      // created token in graphCMS. Settings -> API ACCESS -> Permanent Auth Tokens -> Create Token. Create Permission to allow all.
-      // Put in .env
     }
   })
 
-  // REVIEW {connect: }
   const query = gql`
     mutation CreateComment($name: String!, $email: String!, $comment: String!, $slug: String!) {
       createComment(data: {name: $name, email: $email, comment: $comment, post: {connect: {slug: $slug}}}) {id}
