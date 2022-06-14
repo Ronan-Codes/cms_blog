@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 /* Any file inside the folder pages/api is mapped to /api/* and 
@@ -14,7 +15,7 @@ type Data = {
 }
 
 export default async function comments(req: NextApiRequest, res: NextApiResponse<Data>) {
-  console.log({graphcmsToken})
+  // console.log({graphcmsToken})
 
   // const {name, email, slug, comment} = req.body;
   // can just put req.body in the request

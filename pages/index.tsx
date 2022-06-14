@@ -1,11 +1,11 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 // import Image from 'next/image'
 import { PostCard, Categories, PostWidget } from '../components';
 
 // Used for getStaticProps
 import { getPosts } from '../services';
-import { Edge, Node } from '../types';
+import { Edge, Node, Post } from '../types';
 
 const posts = [
   {title: 'React Testing', excerpt: 'Learn React Testing'},
@@ -40,8 +40,8 @@ const Home: NextPage<{posts: Edge[]}> = ({posts}) => {
   )
 }
 
-export async function getStaticProps() {
-  const posts:any = (await getPosts()) || [];
+export const getStaticProps: GetStaticProps = async() => {
+  const posts:Post = (await getPosts()) || [];
 
   return {
     props: {posts}
